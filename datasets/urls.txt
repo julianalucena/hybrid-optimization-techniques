@@ -1,0 +1,7 @@
+http://archive.ics.uci.edu/ml/datasets/Ionosphere
+http://archive.ics.uci.edu/ml/datasets/Pima+Indians+Diabetes
+http://archive.ics.uci.edu/ml/datasets/Liver+Disorders
+
+Contém dados categóricos
+http://archive.ics.uci.edu/ml/machine-learning-databases/statlog/australian/
+http://archive.ics.uci.edu/ml/datasets/Statlog+%28Heart%29
