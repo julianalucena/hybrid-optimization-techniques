@@ -30,7 +30,6 @@ def knn(distance_metric, solution, training_examples, e, adaptative=False):
 	k = solution[2]
 	# Calculating the distances
 	distances = list()
-	#print training_examples
 	for c, l in training_examples.items():
 		for i in l:
 			if adaptative:
@@ -39,11 +38,8 @@ def knn(distance_metric, solution, training_examples, e, adaptative=False):
 				d = distance_metric(i, e, solution)
 				
 			distances.append((d, c))
-		
-	#print len(distances)
-		
 	distances = sorted(distances)
-	#print distances
+
 	# Getting k near classes	
 	near_classes = dict()
 	for ki in range(k):
@@ -58,12 +54,10 @@ def knn(distance_metric, solution, training_examples, e, adaptative=False):
 			near_classes[i_class] = (d, 1)
 	near_classes_ordered = list()
 	for c, t in near_classes.items():
-		#print 'c', c, 't', t
 		near_classes_ordered.append((t[1], t[0], c))
 	
 	near_classes_ordered.sort()	
 	near_classes_ordered.reverse()
-	#print near_classes_ordered
 	return near_classes_ordered[0][2]
 	
 def knn_euclidian(solution, training_examples, e, adaptative=False):

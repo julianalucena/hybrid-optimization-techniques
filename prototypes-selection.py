@@ -154,6 +154,7 @@ if __name__ == "__main__":
 		print 'Class', c, ':', len(l)
 	
 	print ''	
+        """
 	print 'Using OSS'	
 	training_set_oss = oss(solution, training_set.copy())
 	
@@ -167,7 +168,6 @@ if __name__ == "__main__":
 	print 'final distribution'
 	for c, l in training_set_oss.items():
 		print 'Class', c, ':', len(l)
- 	"""
 	
 	""""
 	Pima Dataset

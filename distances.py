@@ -25,9 +25,8 @@ def euclidian_distance(a, b, solution):
 	s = 0.0
 	
 	# Tirando label
-	for ai in a[:-1]:
-		i = a.index(ai)
-		if solution[1][i]:
+	for i, ai in enumerate(a[:-1]):
+                if solution[1][i]:
 			wx = solution[0][i]
 			s = s + (fabs(ai*wx - b[i]*wx)**2)
 	
@@ -94,25 +93,10 @@ def __min_sphere_radius(a, training_set, distance_metric, solution):
 	distances = list()
 	
 	for c, l in training_set.items():
-		if c != a[:-1]:
+		if c != a[-1]:
 			for li in l:
 				distances.append(distance_metric(a, li, solution))
 
 	distances.sort()
 	
 	return distances[0] - e
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	

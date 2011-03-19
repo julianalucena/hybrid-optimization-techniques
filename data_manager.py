@@ -191,7 +191,7 @@ def get_australian_dataset(data_path):
 
 	with open(data_path) as f:
 		for line in f:
-			t = line.split(' ')
+			t = line.split(',')
 			inst = list()
 			try:	
 				for i in range(14):
@@ -239,15 +239,10 @@ def process_data(processed_data, training_percentage):
 				training[c] = [l.pop(random.randint(0, len(l)-1))]
 			else:
 				training[c].append(l.pop(random.randint(0, len(l)-1)))
-			#training[c] = l[:training_quantity]
 			
 		test[c] = l	
-		#test[c] = l[training_quantity:]
 		
 	return (training, test)	
 	
 if __name__ == '__main__':
-	#print get_ionosphere_dataset('datasets/ionosphere/ionosphere.data')
-	#print get_liver_dataset('datasets/liver/bupa.data')
-	#print get_pima_dataset('datasets/pima/pima-indians-diabetes.data')
 	print get_sonar_dataset('datasets/sonar/sonar.all-data')

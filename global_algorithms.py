@@ -140,7 +140,7 @@ def tabu_search(training_set, test_set, knn_function, solution, i, f, adaptative
 	p = int(ceil(sqrt(len(solution[0]))))
 	t = p
 	for it in range(i):
-			  f.write('iteracao %s \n' % it)
+			  f.write('iteration %s \n' % it)
 			  print it
 			  solutions = __gen_neighbors_solutions(s_, m, n, p)
 			  (hit_rate, s_) = __best_solution(training_set, test_set, knn_function, solutions, adaptative)
@@ -162,13 +162,10 @@ def __gen_neighbors_solutions(solution, m, n, p):
 			wx = random.uniform(-1, 1)
 			fx = random.randint(0, len(solution[0])-1)
 			kx = random.sample([1, 3, 5, 7, 9], 1)[0]
-			#print 'wx', wx, 'fx', fx
 			
 			new_solution = (list(solution[0]), list(solution[1]), kx)
 			new_solution[0][fx] = new_solution[0][fx] + wx
 			
-			#print 'sol', solution
-			#print 'new', new_solution
 			solutions.append(new_solution)
 			
 	for i in range(p):
@@ -182,11 +179,8 @@ def __gen_neighbors_solutions(solution, m, n, p):
 			else:
 					new_solution[1][fx] = 1
 	
-			#print 'sol', solution
-			#print 'new', new_solution
 			solutions.append(new_solution)
 	
-	#print len(solutions)
 	return solutions
 	
 def __best_solution(training_set, test_set, knn_function, solutions, adaptative=False):
@@ -194,7 +188,6 @@ def __best_solution(training_set, test_set, knn_function, solutions, adaptative=
 	best = (0, None)
 	
 	for s in solutions:
-			#print training_set
 			hit_rate = training_machine(training_set, test_set, knn_function, s, adaptative)
 			if hit_rate > best[0]:
 					best = (hit_rate, s)
@@ -202,113 +195,20 @@ def __best_solution(training_set, test_set, knn_function, solutions, adaptative=
 
 if __name__ ==  '__main__':
   # Tabu search Adaptive
-	"""
-	solution = ([1.0, 1.0, 1.0, 1.0, 1.0, 1.0,1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],[1, 1, 1, 1, 1, 1,1, 1, 1, 1, 1, 1, 1],1)
-	processed_data = get_liver_dataset('datasets/selected/heart-oss.data')
-	(training_set, test_set) = process_data(processed_data, 70)
-	
-			  # Tabu search Adaptive
+        for e in [1, 2, 3, 4, 5]:
+          n_features = 60 
+          solution = ([1.0]*n_features,[1]*n_features,1)
+          processed_data = get_sonar_dataset('datasets/sonar/sonar.all-data')
+          (training_set, test_set) = process_data(processed_data, 70)
+          
+                            # Tabu search Adaptive
 
-	with open('D:/CIn/logs/ts-adaptive.log','w') as f:
-	
-			print 'TS Adaptative Distance'
-			best_solution = tabu_search(training_set, test_set, knn_euclidian, solution, 100, f, adaptative=True)
-			f.write('best solution: %s' % str(best_solution))
-			print 'Hits for the best solution'
-			hits = training_machine(training_set, test_set, knn_euclidian, best_solution)
-			f.write('Hits for the best solution: %s' % hits)
-	
-	
-	solution = ([1.0, 1.0, 1.0, 1.0, 1.0, 1.0,1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],[1, 1, 1, 1, 1, 1,1, 1, 1, 1, 1, 1, 1],1)
-	processed_data = get_liver_dataset('datasets/selected/heart-oss.data')
-	(training_set, test_set) = process_data(processed_data, 70)
-	with open('D:/CIn/logs/ts-euclidian.log','w') as f:
-	# Tabu search Euclidian
-			print 'TS Euclidian Distance'
-			best_solution = tabu_search(training_set, test_set, knn_euclidian, solution, 100, f, adaptative=False)
-			f.write('best solution: %s' % str(best_solution))
-			print 'Hits for the best solution'
-			hits = training_machine(training_set, test_set, knn_euclidian, best_solution)
-			f.write('Hits for the best solution: %s' % hits)
-	
-	solution = ([1.0, 1.0, 1.0, 1.0, 1.0, 1.0,1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],[1, 1, 1, 1, 1, 1,1, 1, 1, 1, 1, 1, 1],1)
-	processed_data = get_liver_dataset('datasets/selected/heart-oss.data')
-	(training_set, test_set) = process_data(processed_data, 70)
-	# Simulated Annealing Adaptive
-	with open('D:/CIn/logs/sa-adaptive.log','w') as f:
-			print 'SA Adaptative Distance'
-			best_solution = simulated_annealing(training_set, test_set, knn_euclidian, solution, f, adaptative=True)
-			f.write('best solution: %s' % str(best_solution))
-			print 'Hits for the best solution'
-			hits = training_machine(training_set, test_set, knn_euclidian, best_solution)
-			f.write('Hits for the best solution: %s' % hits)
-	
-	solution = ([1.0, 1.0, 1.0, 1.0, 1.0, 1.0,1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],[1, 1, 1, 1, 1, 1,1, 1, 1, 1, 1, 1, 1],1)
-	processed_data = get_liver_dataset('datasets/selected/heart-oss.data')
-	(training_set, test_set) = process_data(processed_data, 70)
-	# Simulated Annealing Euclidian
-	with open('D:/CIn/logs/sa-euclidian.log','w') as f:
-			print 'SA Euclidian Distance'
-			best_solution = simulated_annealing(training_set, test_set, knn_euclidian, solution, f, adaptative=False)
-			f.write('best solution: %s' % str(best_solution))
-			print 'Hits for the best solution'
-			hits = training_machine(training_set, test_set, knn_euclidian, best_solution)
-			print hits
-			f.write('Hits for the best solution: %s' % hits)
-			
-	
-	# k-NN Euclidian
-	list_qtde = []
-	list_media = []
-	media = 0.0
-	best_k = (0,0)
-	current_k = (0,0)
-	for k in [1,3,5,7,9]:
-			cur_media = 0.0
-			for i in xrange(3):
-					print 'k', k
-					solution = ([1.0, 1.0, 1.0, 1.0, 1.0, 1.0,1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],[1, 1, 1, 1, 1, 1,1, 1, 1, 1, 1, 1, 1],1)
-					processed_data = get_liver_dataset('datasets/selected/heart-oss.data')
-					(training_set, test_set) = process_data(processed_data, 70)
-					x = training_machine(training_set, test_set, knn_euclidian, ([1.0, 1.0, 1.0, 1.0, 1.0, 1.0,1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],[1, 1, 1, 1, 1, 1,1, 1, 1, 1, 1, 1, 1],k), adaptative=True)
-					print str(x)
-					list_qtde.append(x)
-					cur_media = cur_media + x
-			current_k = (cur_media/3, k)
-			list_media.append(cur_media/3)
-			if current_k[0] >= best_k[0]:
-					best_k = current_k
-	print list_media
-	print list_qtde
-	print best_k
-	"""
-	# k-NN Euclidian
-	list_qtde = []
-	list_media = []
-	media = 0.0
-	best_k = (0,0)
-	current_k = (0,0)
-	for k in [1,3,5,7,9]:
-			cur_media = 0.0
-			for i in xrange(3):
-					print 'k', k
-					solution = ([1.0, 1.0, 1.0, 1.0, 1.0, 1.0,1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],[1, 1, 1, 1, 1, 1,1, 1, 1, 1, 1, 1, 1],1)
-					processed_data = get_liver_dataset('datasets/selected/heart-oss.data')
-					(training_set, test_set) = process_data(processed_data, 70)
-					x = training_machine(training_set, test_set, knn_euclidian, ([1.0, 1.0, 1.0, 1.0, 1.0, 1.0,1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],[1, 1, 1, 1, 1, 1,1, 1, 1, 1, 1, 1, 1],k))
-					print str(x)
-					list_qtde.append(x)
-					cur_media = cur_media + x
-			current_k = (cur_media/3, k)
-			list_media.append(cur_media/3)
-			if current_k[0] >= best_k[0]:
-					best_k = current_k
-	print list_media
-	print list_qtde
-	print best_k
-	"""
-	# Simulated Annealing
-	#best_solution = simulated_annealing(training_set, test_set, knn_euclidian, solution, f, adaptative=True)
-	#print 'Hits for the best solution'
-	#print training_machine(training_set, test_set, knn_euclidian, best_solution)
-	"""
+          with open('logs/sonar/ts-adaptive-%i.log' % e,'w') as f:
+          
+                          print 'TS Adaptive Distance'
+                          best_solution = tabu_search(training_set, test_set, knn_euclidian, solution, 100, f, adaptative=True)
+                          f.write('best solution: %s' % str(best_solution))
+                          print 'Hits for the best solution'
+                          hits = training_machine(training_set, test_set, knn_euclidian, best_solution)
+                          print hits
+                          f.write('Hits for the best solution: %s' % hits)

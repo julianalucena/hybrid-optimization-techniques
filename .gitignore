@@ -1,4 +1,7 @@
 papers/
+logs/
 *.swp
 *.swo
 *.pyc
+.DS_Store
+datasets/.DS_Store

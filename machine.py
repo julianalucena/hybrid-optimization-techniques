@@ -4,7 +4,6 @@
 #-*- coding:utf-8 -*-
 
 import operator
-#import resource
 from datetime import datetime
 
 from data_manager import *
@@ -42,25 +41,13 @@ def training_machine(training_set, test_set, knn_function, solution, adaptative=
 			
 			if i_class == c:
 				hits = hits + 1
-	#print 'hits', hits
-	#print 'len(test_set)', test_len
-	#print hits
 	return hits/test_len
 	
 if __name__ == "__main__":
 	print 'Processing Balance Scale Database, considering numeric attributes'
 	print 'Using k-NN'
-	#print 'Using k-NN Weight'
 	print ''
-	#hit_rates = training_machine('datasets/iris.data', get_iris_data, euclidian_distance, 75)
-	#hit_rates = training_machine('datasets/yeast.data', get_yeast_data, euclidian_distance, 95)
-	
 	hit_rates = training_machine('datasets/balance-scale.data', get_scale_data, euclidian_distance, 95)
-	#hit_rates = training_machine('datasets/car.data', get_car_data, vdm, 95)
-	
-	#hit_rates = training_machine('datasets/tae.data', get_tae_data, hvdm, 95)
-	#hit_rates = training_machine('datasets/abalone.data', get_abalone_data, hvdm, 99)
-
 	plt.plot([1,2,3,5,7,9,11,13,15], hit_rates)
 	plt.ylabel('Hit Rate')
 	plt.xlabel('K Value')
