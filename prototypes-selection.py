@@ -132,45 +132,17 @@ def oss(solution, data_set_):
 
 
 if __name__ == "__main__":
-	"""
-	Liver Dataset
-	
-	data_set = get_liver_dataset('datasets/liver/bupa.data')
+	data_set = get_data('sub_training_0')
 	solution = ([1.0]*6, [1]*6, 1)
-	
-	print 'Original data set distribution'
-	for c, l in data_set.items():
-		print 'Class', c, ':', len(l)
-	
-	print ''
-	(training_set, test_set) = process_data(data_set, 70)
-	print len(test_set['1']) + len(test_set['2']), 'instances will be tested'
-	
-	print 'Original training data set distribution'
-	for c, l in training_set.items():
-		print 'Class', c, ':', len(l)
-	
-	print ''	
-        """
+
 	print 'Using OSS'	
-	training_set_oss = oss(solution, training_set.copy())
-	
-	with open('/Users/julianalucena/Desktop/aprendizagem/projeto/projetos-rna-am/datasets/selected/bupa-oss.data', 'w') as f:
-		for c, l in training_set_cnn.items():
-			for li in l:
-				for n in li:
-					f.write('%s ' % n)
-				f.write('\n')	
-	
-	print 'final distribution'
-	for c, l in training_set_oss.items():
-		print 'Class', c, ':', len(l)
-	
+	training_set_oss = oss(solution, data_set)
+        push_data(training_set_oss, 'bupa-oss')
 	
 	# Tabu search
-	best_solution = tabu_search(training_set_oss, test_set, knn_euclidian, solution, 100)
-	print 'Hits for the best solution'
-	print training_machine(training_set, test_set, knn_euclidian, best_solution)
+	#best_solution = tabu_search(training_set_oss, test_set, knn_euclidian, solution, 100)
+	#print 'Hits for the best solution'
+	#print training_machine(training_set, test_set, knn_euclidian, best_solution)
 		
 	#for k in range(1, 6):
 	  #print 'k', k
