@@ -33,7 +33,7 @@ def push_data(data, path):
   for klass in data.keys():
     data_compressed.extend([inst for inst in data[klass]])
 
-  for a in data_compressed:
+  for a in range(0, len(data_compressed)):
     i = random.randint(0, len(data_compressed) - 1)
     inst = data_compressed.pop(i)
     for attr in inst:
@@ -42,7 +42,6 @@ def push_data(data, path):
         f.write('\n')
       else:
         f.write(',')
-
 
 if __name__ == '__main__':
   print get_data('datasets/sub_training_0')
