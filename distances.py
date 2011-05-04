@@ -99,4 +99,7 @@ def __min_sphere_radius(a, training_set, distance_metric, solution):
 
 	distances.sort()
 	
-	return distances[0] - e
+        if len(distances) != 0:
+          return distances[0] - e
+        else:
+          return e

@@ -8,6 +8,7 @@ from machine import training_machine
 
 from collections import deque
 from math import ceil, sqrt, exp
+from time import time
 
 """
 The hybrid algorithms
@@ -132,6 +133,7 @@ def tabu_search(training_set, test_set, knn_function, solution, i, f, adaptative
 	"""
 	
 	s_ = solution
+	s_best = solution
 	tabu = deque()
 	tabu.append(solution)
 
@@ -142,11 +144,13 @@ def tabu_search(training_set, test_set, knn_function, solution, i, f, adaptative
 	for it in range(i):
 			  f.write('iteration %s \n' % it)
 			  print it
+                          print tabu
 			  solutions = __gen_neighbors_solutions(s_, m, n, p)
 			  (hit_rate, s_) = __best_solution(training_set, test_set, knn_function, solutions, adaptative)
 			  if not s_ in tabu:
 					  if len(tabu) == t:
 							  tabu.popleft()
+                                          print s_
 					  tabu.append(s_)
 					  s_best = s_
 					  f.write('%s \n' % str(s_best))
@@ -185,6 +189,7 @@ def __gen_neighbors_solutions(solution, m, n, p):
 	
 def __best_solution(training_set, test_set, knn_function, solutions, adaptative=False):
         
+	#best = (0, ([1.0, 1.0, 1.0, 1.0, 1.0, 1.0], [1, 1, 1, 1, 1, 1], 1))
 	best = (0, None)
 	
 	for s in solutions:
@@ -195,20 +200,27 @@ def __best_solution(training_set, test_set, knn_function, solutions, adaptative=
 
 if __name__ ==  '__main__':
   # Tabu search Adaptive
-        for e in [1, 2, 3, 4, 5]:
-          n_features = 60 
+        for e in range(0, 5):
+          n_features = 6
           solution = ([1.0]*n_features,[1]*n_features,1)
-          processed_data = get_sonar_dataset('datasets/sonar/sonar.all-data')
-          (training_set, test_set) = process_data(processed_data, 70)
+          training_set = get_data('datasets/liver/selected/mldb/training_%i' % e)
+          test_set = get_data('datasets/liver/selected/mldb/test_%i' % e)
           
                             # Tabu search Adaptive
 
-          with open('logs/sonar/ts-adaptive-%i.log' % e,'w') as f:
+          with open('ts-adaptive-%i.log' % e,'w') as f:
           
+                          initial = time()
                           print 'TS Adaptive Distance'
                           best_solution = tabu_search(training_set, test_set, knn_euclidian, solution, 100, f, adaptative=True)
-                          f.write('best solution: %s' % str(best_solution))
+                          f.write('best solution: %s\n' % str(best_solution))
+                          middle = time()
                           print 'Hits for the best solution'
                           hits = training_machine(training_set, test_set, knn_euclidian, best_solution)
                           print hits
-                          f.write('Hits for the best solution: %s' % hits)
+                          final = time()
+
+                          f.write('Hits for the best solution: %s\n' % hits)
+                          
+                          f.write('TS Spent time: %s\n' % str(final - initial))
+                          f.write('k-NN Spent time: %s\n' % str(final - middle))
