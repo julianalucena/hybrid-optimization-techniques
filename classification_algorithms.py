@@ -44,7 +44,7 @@ def knn(distance_metric, solution, training_examples, e, adaptative=False):
     near_classes = dict()
     for ki in range(k):
 
-          try:
+      try:
         (d, i_class) = distances[ki]
         if near_classes.has_key(i_class):
             if near_classes[i_class][0] > d:
@@ -54,8 +54,8 @@ def knn(distance_metric, solution, training_examples, e, adaptative=False):
         else:
             near_classes[i_class] = (d, 1)
           # Few instances for k number
-          except IndexError:
-            pass
+      except IndexError:
+        pass
     near_classes_ordered = list()
     for c, t in near_classes.items():
         near_classes_ordered.append((t[1], t[0], c))

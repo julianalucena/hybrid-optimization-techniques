@@ -52,7 +52,7 @@ def stratified_k_fold(path, k):
   # Printing just to be sure that all instances were used
   print insts
   for fold in folds:
-    push_data(fold, 'test/sub_training_%i' % folds.index(fold))
+    push_data(fold, 'sub_training_%i' % folds.index(fold))
 
 if __name__ == '__main__':
   #k_fold('datasets/liver/bupa.data', 5)

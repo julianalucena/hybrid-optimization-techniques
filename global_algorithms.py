@@ -144,13 +144,13 @@ def tabu_search(training_set, test_set, knn_function, solution, i, f, adaptative
     for it in range(i):
               f.write('iteration %s \n' % it)
               print it
-                          print tabu
+              print tabu
               solutions = __gen_neighbors_solutions(s_, m, n, p)
               (hit_rate, s_) = __best_solution(training_set, test_set, knn_function, solutions, adaptative)
               if not s_ in tabu:
                       if len(tabu) == t:
                               tabu.popleft()
-                                          print s_
+                      print s_
                       tabu.append(s_)
                       s_best = s_
                       f.write('%s \n' % str(s_best))
@@ -200,14 +200,18 @@ def __best_solution(training_set, test_set, knn_function, solutions, adaptative=
 
 if __name__ ==  '__main__':
   # Tabu search Adaptive
+      for path in ['liver/selected/drop3', 'liver/selected/hmn_ei',
+          'liver/selected/ib2', 'liver/selected/icf', 'liver/selected/mldb',
+          'liver/selected/oss', 'liver/folds/original']:
+        path = 'datasets/' + path
         for e in range(0, 5):
           n_features = 6
           solution = ([1.0]*n_features,[1]*n_features,1)
-          training_set = get_data('datasets/liver/selected/drop3/training_%i' % e)
-          test_set = get_data('datasets/liver/selected/drop3/test_%i' % e)
+          training_set = get_data(path + '/training_%i' % e)
+          test_set = get_data(path + '/test_%i' % e)
 
           # Tabu search Adaptive
-          with open('ts-adaptive-%i.log' % e,'w') as f:
+          with open(path + '/ts-adaptive-%i.log' % e,'w') as f:
                           initial = clock()
                           print 'TS Adaptive Distance'
                           best_solution = tabu_search(training_set, test_set, knn_euclidian, solution, 100, f, adaptative=True)
