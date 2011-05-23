@@ -13,7 +13,6 @@ def get_data(path):
   instances = dict()
 
   with open(path) as f:
-    f.readline() # removing first line just for now
     for line in f:
       inst = line.split(',')
       klass = inst[-1].rstrip('\n')
@@ -28,7 +27,6 @@ def get_data(path):
 
 def push_data(data, path):
   f = open(path, 'w')
-  f.write('111111\n') # adding feature types just for now
   data_compressed = list()
 
   for klass in data.keys():
