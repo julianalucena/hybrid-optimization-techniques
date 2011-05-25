@@ -189,8 +189,8 @@ def __gen_neighbors_solutions(solution, m, n, p):
 
 def __best_solution(training_set, test_set, knn_function, solutions, adaptative=False):
 
-    #best = (0, ([1.0, 1.0, 1.0, 1.0, 1.0, 1.0], [1, 1, 1, 1, 1, 1], 1))
-    best = (0, None)
+    n_features = len(solutions[0][0])
+    best = (0, ([1.0]*n_features, [1]*n_features, 1))
 
     for s in solutions:
             hit_rate = training_machine(training_set, test_set, knn_function, s, adaptative)
@@ -204,9 +204,9 @@ if __name__ ==  '__main__':
           'liver/selected/ib2', 'liver/selected/icf', 'liver/selected/mldb',
           'liver/selected/oss', 'liver/folds/original']:
         path = 'datasets/' + path
-        for e in range(0, 5):
+        for e in range(5):
           n_features = 6
-          solution = ([1.0]*n_features,[1]*n_features,1)
+          solution = ([1.0]*n_features, [1]*n_features, 1)
           training_set = get_data(path + '/training_%i' % e)
           test_set = get_data(path + '/test_%i' % e)
 
