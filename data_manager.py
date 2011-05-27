@@ -117,6 +117,29 @@ def get_infos(path):
     except KeyError:
       print 0
 
+  """
+  Generates the training and test sets through k-fold cross validation
+
+  @type path: str
+  @param path: The path where the folds are
+  @type n_folds: int
+  @param n_folds: The number of folds
+  """
+def generate_sets(path, n_folds):
+  folds = [open(path + 'sub_training_%i' % i).readlines() for i in range(n_folds)]
+  for i, fold in enumerate(folds):
+    # The current file is the test set
+    test = open(path + 'test_%i' % i, 'w')
+    for l in fold:
+      test.write(l)
+
+    # The other files are the training set
+    train = open(path + 'training_%i' % i, 'w')
+    # Flattening files lines
+    lines = sum([f for f in folds if folds.index(f) != i], [])
+    for l in lines:
+      train.write(l)
+
 if __name__ == '__main__':
   #print get_data('datasets/sub_training_0')
   #data = {'1': [[92.0, 80.0, 10.0, 26.0, 20.0, 6.0, '1'],
@@ -133,4 +156,9 @@ if __name__ == '__main__':
                       #folds_data.index(data))
     #push_data(test, 'datasets/liver/folds/oss/test_%i' %
                       #folds_data.index(data))
-   get_infos('datasets/liver/selected/ib2')
+   #get_infos('datasets/liver/selected/ib2')
+  for path in ['liver/selected/drop3/', 'liver/selected/hmn_ei/',
+      'liver/selected/ib2/', 'liver/selected/icf/', 'liver/selected/oss/',
+      'liver/folds/original/']:
+    path = 'datasets/' + path
+    generate_sets(path, 5)
